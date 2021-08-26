@@ -1,6 +1,4 @@
-## Enunciado: --- Day 9: Sensor Boost ---
-
-### Part One
+### --- Day 9: Sensor Boost ---
 
 You've just said goodbye to the rebooted rover and left Mars when you receive a faint distress signal coming from the asteroid belt. It must be the Ceres monitoring station!
 
@@ -39,7 +37,7 @@ The BOOST program will ask for a single input; run it in test mode by providing 
 
 Once your Intcode computer is fully functional, the BOOST program should report no malfunctioning opcodes when run in test mode; it should only output a single value, the BOOST keycode. What BOOST keycode does it produce?
 
-### Part Two
+###### --- Part Two ---
 
 You now have a complete Intcode computer.
 

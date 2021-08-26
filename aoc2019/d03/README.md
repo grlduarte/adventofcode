@@ -1,6 +1,4 @@
-# Enunciado do problema
-
---- Day 3: Crossed Wires ---
+### --- Day 3: Crossed Wires ---
 
 The gravity assist was successful, and you're well on your way to the Venus refuelling station. During the rush back on Earth, the fuel management system wasn't completely installed, so that's next on the priority list.
 
@@ -49,7 +47,7 @@ Here are a few more examples:
 
 What is the Manhattan distance from the central port to the closest intersection?
 
---- Part Two ---
+###### --- Part Two ---
 
 It turns out that this circuit is very timing-sensitive; you actually need to minimize the signal delay.
 

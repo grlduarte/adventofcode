@@ -1,68 +1,4 @@
-# Sumário da análise do dia 2
-
-Todo mundo escreveu seu primeiro emulador de CPU! Talvez por ser um problema mais legal, os programas estão muito melhores (do meu ponto de vista) do que os do dia 1. Fazendo uma extrapolação a la pandemia, estimo que no dia 10 vocês serão rockstar programmers.
-
-## Input
-O tratamento de input foi bimodal:
-
-- Leitura direto do arquivo. Todos esses usaram context manager. (`with open(name) as f: ...`)
-- Função `numpy.genfromtxt()` (ou `loadtxt()`).
-- A Julia deixou o input inline como uma lista, facilita a vida de quem vai analisar.
-
-## Estilo de código
-
-A maioria encapsulou bem o código (funções pra maioria do código).
-
-- Daniel definiu uma classe.
-- Grande parte dos programas usou o idioma `"if __name__ == '__main__':"`
-- É interessante separar a lógica: input, computador, resolução dos problemas.
-
-A decodificação foi feita usando a abordagem `if-elif-else` em todos os casos.
-
-- Forma alternativa: dicionário com funções.
-- O Thiago usou lambdas, e o Jaderson funções pras operações.
-
-## Computador
-
-O computador de todos executa o programa dado como input com sucesso.
-A sequência de iteração foi feita de duas formas:
-
-- Uso de `while not halted: ...`. Esta abordagem pode causar loops infinitos se o programa não tem opcode 99.
-- Iteração linear com `for instruction in code: ...`), por outro lado,
-não vai resolver quando o computador suportar branching.
-
-Cada uma destas formas tem vantagens e desvantagens. No programa atual, iterar linearmente é viável.
-Porém, quando instruções com branching (saltos condicionais) forem implementadas, o programa terá
-que ser modificado para usar `while`. Sugestão para evitar loops infinitos: permitir executar instruções passo a passo (exemplo: no programa do Daniel, pode-se executar o método `IntCode.read_line()` para executar uma instrução).
-
-
-- Opcode 99 é decodificado em alguns programas, e usado como condição no `while` em outros.
-- O que fazer quando há opcodes desconhecidos? Ignorar, parar, ou explodir?
-- Instruções podem se auto-modificar, então precisa haver cuidado com construções como a abaixo.
-```
-suponha que a instrução atual code[pc] é 1.
-if code[pc] == 1:
-   execute_op1()
-if code[pc] == 2: # se o resultado acima deixa 2 em code[pc], o código abaixo também é executado.
-   execute_op2()
-```
-
-Note também que "nome e verbo" são específicos dos problemas passados, o computador deve ser independente deles.
-
-## Segunda parte
-
-A solução da segunda parte foi feita de formas muito variadas:
-
-- Laço `for` duplo, iterando todo o espaço de parâmetros (100 x 100).
-- Utilitários do `itertools`, também iterando todo o espaço de parâmetros. É mais elegante, mas menos legível.
-- List comprehension com for duplo. Neste caso, a lista inteira é alocada, pode ser problema.
-- O Muryel usou um gerador ao invés de list comprehension. A diferença na sintaxe
-é usar parênteses ao invés de colchetes. Mas neste caso temos um iterador. É equivalente ao
-uso do `itertools`.
-- A Katia usou uma busca aleatória! Diz pra gente quanto tempo levou pra achar.
-
-
-# Enunciado do problema - Day 2: 1202 Program Alarm
+### --- Day 2: 1202 Program Alarm ---
 
 On the way to your gravity assist around the Moon, your ship computer beeps angrily about a "1202 program alarm". On the radio, an Elf is already explaining how to handle the situation: "Don't worry, that's perfectly norma--" The ship computer bursts into flames.
 
@@ -114,7 +50,7 @@ Here are the initial and final states of a few more small programs:
 
 Once you have a working computer, the first step is to restore the gravity assist program (your puzzle input) to the "1202 program alarm" state it had just before the last computer caught fire. To do this, before running the program, replace position 1 with the value 12 and replace position 2 with the value 2. What value is left at position 0 after the program halts?
 
---- Part Two ---
+###### --- Part Two ---
 
 "Good, the new computer seems to be working correctly! Keep it nearby during this mission - you'll probably use it again. Real Intcode computers support many more features than your new one, but we'll let you know what they are as you need them."
 
