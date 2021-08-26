@@ -20,7 +20,7 @@ How many different passwords within the range given in your puzzle input meet th
 
 Your puzzle answer was **1178**.
 
-###### --- Part two ---
+#### --- Part two ---
 
 An Elf just remembered one more important detail: the two adjacent matching digits are not part of a larger group of
 matching digits.

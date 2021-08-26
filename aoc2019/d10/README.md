@@ -103,7 +103,7 @@ Here are some larger examples:
 
 Find the best location for a new monitoring station. How many other asteroids can be detected from that location?
 
-###### --- Part Two ---
+#### --- Part Two ---
 
 Once you give them the coordinates, the Elves quickly deploy an Instant Monitoring Station to the location and discover the worst: there are simply too many asteroids.
 

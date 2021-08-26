@@ -37,7 +37,7 @@ The BOOST program will ask for a single input; run it in test mode by providing 
 
 Once your Intcode computer is fully functional, the BOOST program should report no malfunctioning opcodes when run in test mode; it should only output a single value, the BOOST keycode. What BOOST keycode does it produce?
 
-###### --- Part Two ---
+#### --- Part Two ---
 
 You now have a complete Intcode computer.
 

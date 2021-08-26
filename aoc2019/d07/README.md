@@ -44,7 +44,7 @@ Here are some example programs:
 
 Try every combination of phase settings on the amplifiers. What is the highest signal that can be sent to the thrusters?
 
-###### --- Part Two ---
+#### --- Part Two ---
 
 It's no good - in this configuration, the amplifiers can't generate a large enough output signal to produce the thrust you'll need. The Elves quickly talk you through rewiring the amplifiers into a feedback loop:
 
