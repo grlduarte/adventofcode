@@ -3,6 +3,8 @@ gduarte@astro.ufsc.br
 Created on 02-mai-2020
 '''
 
+#FIXME: part 2 not working
+
 from itertools import permutations
 
 class Vector(tuple):
