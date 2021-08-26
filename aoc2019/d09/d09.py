@@ -4,9 +4,6 @@ Created on 21-Apr-2020
 '''
 
 class Computer:
-    '''
-    Computer highly inspired on dia02-daniel.py =)
-    '''
     def __init__(self, input_file: str, mem_alloc=2048):
         with open(input_file, 'r') as f: 
             self.intcode = [int(_) for _ in f.read().strip().split(',')]

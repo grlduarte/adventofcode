@@ -142,12 +142,3 @@ def part_one():
 
 def part_two():
     moons = MoonsSystem('input.dat')
-
-'''
-for axis in axes:
-    print(f'axis {axis}:')
-    for i,element in enumerate(axes[axis]):
-        print(f'  moon {i} :: {len(element)-1} - {element.index(element[-1])} = ', end='')
-        print(f'{len(element)-1 - element.index(element[-1])} :: ', end='')
-        print(f' {element[element.index(element[-1])]} {element[-1]}')
-'''
