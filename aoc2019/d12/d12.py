@@ -3,8 +3,6 @@ gduarte@astro.ufsc.br
 Created on 02-mai-2020
 '''
 
-#FIXME: part 2 not working
-
 from itertools import permutations
 
 
@@ -112,17 +110,26 @@ def lcm(x, y):
 
 
 def get_periods(moons):
+    '''
+    At first I was comparing the state at each step with
+    all of the states before, and that takes a lot of time.
+    The catch is that there's no need for that, as once some
+    axis starts to repeat itself, it will start repeating the
+    first state.
+    '''
     p = [False, False, False]
     ax = {0: [], 1: [], 2: []}
-            
+    for i in range(3):
+        ax[i] = (tuple(moon.r[i] for moon in moons),
+                 tuple(moon.v[i] for moon in moons))
+
     while True:
         for i in range(3):
             s = (tuple(moon.r[i] for moon in moons),
                  tuple(moon.v[i] for moon in moons))
-            if (s in ax[i]) and (not p[i]):
-                p[i] = len(set(ax[i]))
+            if (s == ax[i]) and (not p[i]):
+                p[i] = moons.t
                 print(p)
-            ax[i].append(s)
         if all(p):
             break
         moons.time_step()
