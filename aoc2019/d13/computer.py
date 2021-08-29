@@ -4,12 +4,11 @@ Created on 21-Apr-2020
 '''
 
 class Computer:
-    def __init__(self, input_file: str, mem_alloc=2048, video=None):
+    def __init__(self, input_file: str, mem_alloc=2048):
         with open(input_file, 'r') as f: 
             self.intcode = [int(_) for _ in f.read().strip().split(',')]
         
         self.mem_alloc = mem_alloc
-        self.video = video
         self.reset()
         self._operations = { 1: self._sum,          2: self._multiply,
                              3: self._get_input,    4: self._set_output,
@@ -27,8 +26,6 @@ class Computer:
         self.status = 'stopped'
         self.pointer = 0
         self.output = []
-        self.screen = [[0 for _ in range(self.video.y_size)] for _ in range(self.video.x_size)]
-        self.score = 0
         self.rel_base = 0
         self.verbose = False
 
@@ -45,7 +42,30 @@ class Computer:
         self.status = 'running'
         self.verbose = verbose
         self.read_instruction()
-        self.video.update()
+
+    def read_instruction(self):
+        '''
+        Read and executes  the instruction  at the  current
+        pointer.
+        '''
+        ## Get the opcode and modes from the instruction
+        try:
+            self._read_modes()
+            self._operations[self._opcode]()
+        except (KeyError, IndexError, TypeError):
+            ## If the opcode is anything that isn't in the operations
+            ## dictionary it'll raise a KeyError. Also, if any of the
+            ## operations tries to set some position out of the memory,
+            ## it'll raise an IndexError or a TypeError if the address
+            ## set as None by self._read_modes is used.
+            self._halt(with_error=True)
+        except AssertionError:
+            ## Handling self._get_input AssertionError
+            ## Assert will raise an AssertionError if the condition is not met.
+            ## In that case, the program stops until it gets an input. If the
+            ## input is there, save it to the memory and then clean the input.
+            if self.verbose: print("Waiting input...")
+            self.status = 'waiting_input'
 
     def _read_modes(self):
         '''
@@ -67,16 +87,16 @@ class Computer:
                 ## case the opcode may be corrupted. When any of that happens,
                 ## append None to the addresses.
                 if m == 0:
-                    self._addresses.append( self.memory[self.pointer + i + 1] )
+                    self._addresses.append(self.memory[self.pointer + i + 1])
                 elif m == 1:
-                    self._addresses.append( self.pointer + i + 1 )
+                    self._addresses.append(self.pointer + i + 1)
                 elif m == 2:
-                    self._addresses.append( self.memory[self.pointer + i + 1] + self.rel_base)
+                    self._addresses.append(self.memory[self.pointer + i + 1] + self.rel_base)
                 else:
                     self._halt(with_error=True)
             except IndexError:
                 self._addresses.append(None)
-
+        
     ### These methods are the functions for each opcode ###
     def _sum(self):
         add1, add2, add3 = self._addresses
@@ -99,8 +119,6 @@ class Computer:
         add1, *_ = self._addresses
         self.output.append(self.memory[add1])
         if self.verbose: print(self.output[-1], end=' ')
-        if len(self.output) == 3:
-            self.handle_output()
         self.pointer += 2
 
     def _jump_if_true(self):
@@ -141,36 +159,3 @@ class Computer:
         if with_error:
             raise RuntimeError("Memory overflow")
     #######################################################
-        
-    def handle_output(self):
-        x, y, value = self.output
-        if (x == -1) and (y == 0):
-            self.score = value
-            print(self.score)
-        else:
-            self.screen[y][x] = value
-        self.output = []
-
-    def read_instruction(self):
-        '''
-        Read and executes  the instruction  at the  current
-        pointer.
-        '''
-        ## Get the opcode and modes from the instruction
-        try:
-            self._read_modes()
-            self._operations[self._opcode]()
-        except (KeyError, IndexError, TypeError):
-            ## If the opcode is anything that isn't in the operations
-            ## dictionary it'll raise a KeyError. Also, if any of the
-            ## operations tries to set some position out of the memory,
-            ## it'll raise an IndexError or a TypeError if the address
-            ## set as None by self._read_modes is used.
-            self._halt(with_error=True)
-        except AssertionError:
-            ## Handling self._get_input AssertionError
-            ## Assert will raise an AssertionError if the condition is not met.
-            ## In that case, the program stops until it gets an input. If the
-            ## input is there, save it to the memory and then clean the input.
-            if self.verbose: print("Waiting input...")
-            self.status = 'waiting_input'
