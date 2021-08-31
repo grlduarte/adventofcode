@@ -24,38 +24,42 @@ class Reactions:
             recipes[k] = (int(qty), v)
         self.recipes = recipes
         self.stock = {k: 0 for k in self.recipes}
-        self.shop_cart = {}
+        self.shop_list = {}
 
     def get_ingredients(self):
-        d_iter = self.shop_cart.copy()
+        d_iter = self.shop_list.copy()
         for comp, needed in d_iter.items():
             try:
-                per_recipe, recipe = self.recipes[comp]
                 # KeyError probably means comp == 'ORE'
-                self.shop_cart[comp] -= needed
+                per_recipe, recipe = self.recipes[comp]
+                # Remove from the list what is being produced
+                self.shop_list[comp] -= needed
+                # Take the surplus from the stock
                 qty = needed - self.stock[comp]
-                self.stock[comp] = 0
                 n_recipes = ceil(qty/per_recipe)
-                self.stock[comp] += n_recipes * per_recipe - qty
+                # Store the surplus
+                self.stock[comp] = n_recipes * per_recipe - qty
             except KeyError:
                 continue
             for j in recipe:
                 v, k = j.split()
+                # Add to the list the new ingredients
                 try:
-                    self.shop_cart[k] += n_recipes * int(v)
+                    self.shop_list[k] += n_recipes * int(v)
                 except KeyError:
-                    self.shop_cart[k] = n_recipes * int(v)
+                    self.shop_list[k] = n_recipes * int(v)
 
     def reset_stock(self):
         self.stock = {k: 0 for k in self.recipes}
-        self.shop_cart = {}
+        self.shop_list = {}
 
     def fuel_cost(self, count=1):
-        self.shop_cart = ({'FUEL': count})
-        while tuple(self.shop_cart.keys()) != ('ORE',):
+        self.shop_list = ({'FUEL': count})
+        while tuple(self.shop_list.keys()) != ('ORE',):
+            # Iterate until all that's left in the shopping list is ORE
             self.get_ingredients()
-            self.shop_cart = {k: v for k, v in self.shop_cart.items() if v != 0}
-        return self.shop_cart['ORE']
+            self.shop_list = {k: v for k, v in self.shop_list.items() if v != 0}
+        return self.shop_list['ORE']
 
 
 def part_two(fname):
@@ -64,6 +68,7 @@ def part_two(fname):
     h = int(1e12)
     target = int(1e12)
     while l < h:
+        # This method converges real quick
         r.reset_stock()
         fuel = (l + h + 1) // 2
         cost = r.fuel_cost(fuel)
